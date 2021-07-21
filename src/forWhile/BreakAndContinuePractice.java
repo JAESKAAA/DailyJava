@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class BreakAndContinuePractice {
 
+	//해당 코드는 자바의정석 남궁성님 강의에서 참고한 코드이며, 추후 연습용으로 다시 작성해볼 예정 임
 	public static void main(String[] args) {
 		int menu = 0, num = 0;
 		

@@ -27,7 +27,6 @@ public class ArraysClassPractice {
 		
 		int[] arr4 = {3, 6, 8, 2, 1, 0};
 		System.out.println(Arrays.toString(arr4)); // 정렬 전
-		
 		System.out.println(Arrays.toString(arr4)); // 오름차순 정렬
 	}
 

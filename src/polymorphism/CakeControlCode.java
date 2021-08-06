@@ -1,5 +1,6 @@
 package polymorphism;
 
+//커밋 테스트용
 class Cake {
 	public void sweet() {System.out.println("Cake.sweet()");}
 	public void send() {System.out.println("Cake...sending");}

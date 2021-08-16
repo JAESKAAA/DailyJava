@@ -2,7 +2,7 @@ package Exception;
 
 import java.io.File;
 
-public class ThrowsExceptionPractice {
+public class ThrowsExceptionPractice extends Object {
 
 	public static void main(String[] args) {
 

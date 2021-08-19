@@ -27,7 +27,13 @@ public class equalPractice {
 		Value v1 = new Value(10);
 		Value v2 = new Value(10);
 		
-		System.out.println(v1.equals(v2));
+		String str = "100";
+		
+		int value1 = Integer.valueOf(str);
+		System.out.println(value1);
+		int value2 = 100;
+		System.out.println(value1 == value2);
+		
 	}
 
 }

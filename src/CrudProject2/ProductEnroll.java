@@ -7,7 +7,17 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class ProductEnroll {
-	//이름으로 조회를 하고싶은데, 객체에서 이름을 매개체로 다른 정보를 불러올 방법을 아직 못찾았음 (근데 되네?...무슨일이지)
+	/*
+	 ** 2021.08.22 수정사항
+	 *  1. iterator로 정확히 검색이 안되던 이슈 해결 -> 172라인에 break 걸어서 해결 했음
+	 *  2. printProduct 메소드 매개변수로 25라인의 t변수 넣었을때는 제대로 작동하지 않았는데, 매개변수에 직접 itr() 도입으로 해결 
+	 *  
+	 *  *남은이슈
+	 *  1. updateProduct에 133번라인 실행 후 변경사항이 저장이 안됨. 아마 조회 원하는 객체를 불러와서 set메서드통해 직접 바꾸는 방향으로 코딩해야 할듯
+	 *  2. 코드가 너무 복잡함 코드 경량화 필요
+	 *  
+	 */
+	
 	//필드
 	Set<Product> set = new HashSet<>();
 	
@@ -16,8 +26,8 @@ public class ProductEnroll {
 	private int input;
 	private int count;
 	private String searchProduct;
-	Product p = new Product();
-	Product t = itr(searchProduct);
+//	Product p = new Product();
+//	Product t = itr(searchProduct);
 	
 	DecimalFormat df = new DecimalFormat("###,###"); //데이터 보기 편하게 세자리마다 콤마 찍어주기
 	
@@ -66,18 +76,20 @@ public class ProductEnroll {
 	
 	//제품 등록할때 쓸 메소드
 	public void pEnroll() {
+		Product p = new Product();
 		System.out.print("상품명 >");
 		p.setPname(sc.nextLine());
 		System.out.print("상품 가격 >");
 		p.setPrice(Integer.parseInt(sc.nextLine()));
 		System.out.println("상품 재고 >");
 		p.setStock(Integer.parseInt(sc.nextLine()));
-				p.setPno(++count);
+		p.setPno(++count);
 		System.out.println("상품 페이지 번호: "+p.getPno());
 		set.add(p);
 		}
 	//제품 등록 기능만 구현
 	private void enroll() {
+		Product p = new Product();
 		System.out.print("상품명 >");
 		p.setPname(sc.nextLine());
 		System.out.print("상품 가격 >");
@@ -87,12 +99,12 @@ public class ProductEnroll {
 		
 	}
 	//제품 출력 메소드
-	public void printProduct(Product p) {
-		if(p.getPname().equals(searchProduct)) {
-			System.out.println("상품 페이지 번호: "+df.format(p.getPno()));
-			System.out.println("상품 이름: "+p.getPname());
-			System.out.println("상품 가격: "+df.format(p.getPrice()));
-			System.out.println("상품 재고: "+df.format(p.getStock()));
+	public void printProduct(Product t) {
+		if(t.getPname().equals(searchProduct)) {
+			System.out.println("상품 페이지 번호: "+df.format(t.getPno()));
+			System.out.println("상품 이름: "+t.getPname());
+			System.out.println("상품 가격: "+df.format(t.getPrice()));
+			System.out.println("상품 재고: "+df.format(t.getStock()));
 		} else {
 			System.out.println("해당 제품을 찾을 수 없습니다. 메인 메뉴로 넘어갑니다.");
 		}
@@ -103,7 +115,7 @@ public class ProductEnroll {
 		System.out.print("조회를 원하시 제품 이름을 작성해 주세요. > ");
 
 		searchProduct = sc.nextLine();
-		printProduct(t);
+		printProduct(itr(searchProduct));
 	}
 	
 	//제품 수정 메소드
@@ -113,14 +125,15 @@ public class ProductEnroll {
 		searchProduct = sc.nextLine();
 		
 		System.out.println("수정 원하시는 제품 정보 입니다.");
-		printProduct(t);
+		printProduct(itr(searchProduct));
 		System.out.println();
 		while(true) {
 		System.out.println("제품수정을 원하시면 \"Y\"를, 취소하시려면 \"N\"를 입력해 주세요.");
 		String input = sc.nextLine();
 		if(input.equalsIgnoreCase("y")) {
 			System.out.println("하기 항목을 업데이트 해주세요.");
-			enroll();
+			enroll(); //수정 등록이 안됨(enroll에 등록해주는 코드가 없어서 그런듯)
+			break;
 		} else if(input.equalsIgnoreCase("n")) {
 			System.out.println("제품 수정을 취소합니다.");
 			break;
@@ -136,14 +149,15 @@ public class ProductEnroll {
 		System.out.print("삭제하고자 하는 제품 이름을 입력해 주세요>.");
 		searchProduct = sc.nextLine();
 		System.out.println("삭제하고자 하는 제품 정보 입니다.");
-		printProduct(t);
+		printProduct(itr(searchProduct));
 		System.out.println();
 		while(true) {
 		System.out.println("제품삭제를 원하시면 \"Y\"를, 취소하시려면 \"N\"를 입력해 주세요.");
 		String input = sc.nextLine();
 		if(input.equalsIgnoreCase("y")) {
-			System.out.println("하기 항목을 업데이트 해주세요.");
-			set.remove(p);
+			set.remove(itr(searchProduct));
+			System.out.println(searchProduct+" 제품을 삭제합니다.");
+			break;
 		} else if(input.equalsIgnoreCase("n")) {
 			System.out.println("삭제를 취소합니다.");
 			break;
@@ -155,12 +169,13 @@ public class ProductEnroll {
 		
 	}
 	public Product itr (String searchProduct) {
+		Product p = null;
 		Iterator<Product> it = set.iterator();
 		while(it.hasNext()) {
-			Product p = it.next();
-				System.out.println("조회하고 싶은 사람 이름>");
+			p = it.next();
 			if(p.getPname().equals(searchProduct)) {
-				System.out.println(p.getPname()+"이 검색되었습니다.");
+				System.out.println("\n"+p.getPname()+"이(가) 검색되었습니다.");
+				break;
 			} else {
 				continue;
 			}

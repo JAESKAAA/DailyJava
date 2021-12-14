@@ -13,6 +13,7 @@ public class EchoServer2 {
 		ServerSocket server = new ServerSocket(9000);
 		System.out.println("준비완료");
 		
+		
 		Socket socket = server.accept(); 
 		System.out.println("클라이언트 연결 완료");
 		

@@ -7,7 +7,7 @@ public class Starcraft {
 		Unit[] group = { new Marine(), new sizeTank(), new Medic()};
 		
 		for (int i=0; i<group.length; i++) {
-			group[i].move(100, 200);
+			group[i].move(100, 200); //group의 각 배열에 move를 100,200 매개변수를 준다 
 		}
 		
 	}

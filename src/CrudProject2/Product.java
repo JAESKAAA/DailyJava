@@ -38,6 +38,23 @@ public class Product {
 		this.price = price;
 	}
 	
+	@Override
+	public int hashCode() {
+		return pname.hashCode();
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Product) {
+			Product p = (Product)obj;
+			return p.pname.equals(pname) && p.price ==price;
+		}	else {
+			return false;
+		}
+	}
+	@Override
+	public String toString() {
+		return pname;
+	}
 	
 }
